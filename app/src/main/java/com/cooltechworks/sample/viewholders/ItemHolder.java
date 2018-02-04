@@ -25,11 +25,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.cooltechworks.sample.R;
 import com.cooltechworks.sample.models.ItemCard;
-import com.cooltechworks.sample.utils.BaseUtils;
 
-/**
- * Created by sharish on 27/12/16.
- */
+import static com.cooltechworks.sample.utils.BaseUtils.TYPE_GRID;
+import static com.cooltechworks.sample.utils.BaseUtils.TYPE_LIST;
+import static com.cooltechworks.sample.utils.BaseUtils.TYPE_SECOND_GRID;
+import static com.cooltechworks.sample.utils.BaseUtils.TYPE_SECOND_LIST;
 
 public class ItemHolder extends RecyclerView.ViewHolder {
 
@@ -39,26 +39,46 @@ public class ItemHolder extends RecyclerView.ViewHolder {
     private TextView mSummaryView;
 
     public static ItemHolder newInstance(ViewGroup container, int type) {
+        View root = LayoutInflater.from(container.getContext()).inflate(getLayoutResourceId(type),
+                container, false);
 
-        View root = LayoutInflater.from(container.getContext()).inflate(type == BaseUtils.TYPE_LIST ? R.layout.layout_news_card : R.layout.layout_ecom_item, container, false);
         return new ItemHolder(root);
     }
 
     private ItemHolder(View itemView) {
         super(itemView);
-        mTitleView = (TextView) itemView.findViewById(R.id.card_title);
-        mDescView = (TextView) itemView.findViewById(R.id.card_subtitle);
-        mSummaryView = (TextView) itemView.findViewById(R.id.card_summary);
-        mThumbnailView = (ImageView) itemView.findViewById(R.id.card_image);
 
+        mTitleView =  itemView.findViewById(R.id.card_title);
+        mDescView =  itemView.findViewById(R.id.card_subtitle);
+        mSummaryView =  itemView.findViewById(R.id.card_summary);
+        mThumbnailView = itemView.findViewById(R.id.card_image);
     }
 
     public void bind(ItemCard card) {
-
         mTitleView.setText(card.getTitle());
         mDescView.setText(card.getDescription());
         mSummaryView.setText(card.getSummaryText());
 
         Glide.with(itemView.getContext()).load(card.getThumbnailUrl()).into(mThumbnailView);
+    }
+
+    private static int getLayoutResourceId(int type) {
+        int selectedLayoutResource;
+        switch (type) {
+            case TYPE_LIST:
+                selectedLayoutResource = R.layout.layout_news_card;
+                break;
+            case TYPE_SECOND_LIST:
+                selectedLayoutResource = R.layout.layout_second_news_card;
+                break;
+            case TYPE_GRID:
+            case TYPE_SECOND_GRID:
+                selectedLayoutResource = R.layout.layout_ecom_item;
+                break;
+            default:
+                selectedLayoutResource = 0;
+        }
+
+        return selectedLayoutResource;
     }
 }

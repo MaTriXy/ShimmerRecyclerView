@@ -17,34 +17,52 @@
 
 package com.cooltechworks.views.shimmer;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
-
-/**
- * Created by sharish on 22/11/16.
- */
+import io.supercharge.shimmerlayout.ShimmerLayout;
 
 public class ShimmerViewHolder extends RecyclerView.ViewHolder {
 
+    private ShimmerLayout mShimmerLayout;
+
     public ShimmerViewHolder(LayoutInflater inflater, ViewGroup parent, int innerViewResId) {
         super(inflater.inflate(R.layout.viewholder_shimmer, parent, false));
-        ShimmerFrameLayout layout = (ShimmerFrameLayout) itemView;
+        mShimmerLayout = (ShimmerLayout) itemView;
 
-        View innerView = inflater.inflate(innerViewResId, layout, false);
-        layout.addView(innerView);
-        layout.setAutoStart(false);
+        inflater.inflate(innerViewResId, mShimmerLayout, true);
     }
 
-    /**
-     * Binds the view
-     */
-    public void bind() {
+    public void setShimmerAngle(int angle) {
+        mShimmerLayout.setShimmerAngle(angle);
+    }
 
-        ShimmerFrameLayout layout = (ShimmerFrameLayout) itemView;
-        layout.startShimmerAnimation();
+    public void setShimmerColor(int color) {
+        mShimmerLayout.setShimmerColor(color);
+    }
+
+    public void setShimmerViewHolderBackground(Drawable viewHolderBackground) {
+        if (viewHolderBackground != null) {
+            setBackground(viewHolderBackground);
+        }
+    }
+
+    public void setShimmerAnimationDuration(int duration) {
+        mShimmerLayout.setShimmerAnimationDuration(duration);
+    }
+
+    public void bind() {
+        mShimmerLayout.startShimmerAnimation();
+    }
+
+    private void setBackground(Drawable background) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            mShimmerLayout.setBackground(background);
+        } else {
+            mShimmerLayout.setBackgroundDrawable(background);
+        }
     }
 }
