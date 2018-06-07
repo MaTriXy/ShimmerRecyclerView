@@ -44,6 +44,10 @@ public class ShimmerViewHolder extends RecyclerView.ViewHolder {
         mShimmerLayout.setShimmerColor(color);
     }
 
+    public void setShimmerMaskWidth(float maskWidth) {
+        mShimmerLayout.setMaskWidth(maskWidth);
+    }
+
     public void setShimmerViewHolderBackground(Drawable viewHolderBackground) {
         if (viewHolderBackground != null) {
             setBackground(viewHolderBackground);
@@ -52,6 +56,10 @@ public class ShimmerViewHolder extends RecyclerView.ViewHolder {
 
     public void setShimmerAnimationDuration(int duration) {
         mShimmerLayout.setShimmerAnimationDuration(duration);
+    }
+
+    public void setAnimationReversed(boolean animationReversed) {
+        mShimmerLayout.setAnimationReversed(animationReversed);
     }
 
     public void bind() {
